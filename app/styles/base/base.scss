@@ -1,0 +1,20 @@
+//
+// @name  Button
+// @description  Blah
+// @lastUpdated Today
+// @version  0.0.1
+// 
+// @state  :hover
+// 
+// @markup
+// 	<div class="button"></div>
+//	
+// 
+
+.button {
+	color: black;
+
+	&:hover {
+		color: red;
+	}
+}

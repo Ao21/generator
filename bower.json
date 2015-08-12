@@ -1,0 +1,13 @@
+{
+  "name": "aa-generator",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
