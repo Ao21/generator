@@ -1,0 +1,15 @@
+/* inject:css */
+/* endinject */
+/* inject:scss */
+.menu {
+  color: black; }
+
+.button {
+  color: black; }
+  .button:hover {
+    color: red; }
+
+p {
+  color: blue; }
+
+/* endinject */

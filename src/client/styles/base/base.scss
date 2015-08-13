@@ -13,8 +13,11 @@
 
 .button {
 	color: black;
-
 	&:hover {
 		color: red;
 	}
+}
+
+p {
+	color: blue;
 }
