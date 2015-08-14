@@ -45,6 +45,7 @@ gulp.task('styles', function() {
 
 /**
  * Gulp: HTML
+ * 
  */
 
 gulp.task('html', function() {
@@ -69,6 +70,7 @@ gulp.task('html', function() {
 
 /**
  * Gulp: Annotate
+ * 
  */
 
 gulp.task('ngAnnotate', function() {
@@ -81,6 +83,7 @@ gulp.task('ngAnnotate', function() {
 
 /**
  *  Gulp: Inject Typescript
+ *  
  */
 
 gulp.task('inject:ts',function() {
@@ -93,6 +96,7 @@ gulp.task('inject:ts',function() {
 
 /**
  *  Gulp: Inject SCSS
+ *  
  */
 
 gulp.task('inject:scss',function() {
@@ -106,6 +110,7 @@ gulp.task('inject:scss',function() {
 
 /**
  *  Gulp: Inject JS + Angular into Html
+ *  
  */
 
 gulp.task('inject:html', function() {
@@ -124,6 +129,7 @@ gulp.task('inject:html', function() {
 
 /**
  *  Gulp: Inject Everything
+ *  
  */
 
 gulp.task('inject:all',['inject:ts','inject:scss','inject:html']);
@@ -131,6 +137,7 @@ gulp.task('inject:all',['inject:ts','inject:scss','inject:html']);
 
 /**
  *  Generate TemplateCache
+ *  
  */
 
 gulp.task('templatecache', ['clean-code'], function() {
@@ -148,6 +155,7 @@ gulp.task('templatecache', ['clean-code'], function() {
 /**
  *  Gulp: Clean Task
  *  Remove Files from tmp, dist, ui-docs
+ *  
  */
 
 gulp.task('clean', function(cb) {
@@ -156,9 +164,18 @@ gulp.task('clean', function(cb) {
   }, cb)
 })
 
+/**
+ * Remove all images from the build folder
+ * 
+ */
+gulp.task('clean-images', function(done) {
+    del(config.path.dist + 'images/**/*.*', done);
+});
+
 
 /**
  *  Gulp: Transpile Typescript
+ *  
  */
 
 var tsProject = $.typescript.createProject({
@@ -180,16 +197,32 @@ gulp.task('typescript', function() {
 
 /**
  * Copy over remaining files
+ * 
  */
 
-gulp.task('copy',function(){
+gulp.task('copy', function(){
   gulp.src(config.path.allHtml)
   .pipe(gulp.dest('dist'));
 })
 
 
 /**
+ * Compress images
+ * 
+ */
+gulp.task('images', ['clean-images'], function() {
+    log('Compressing and copying images');
+
+    return gulp
+        .src(config.images)
+        .pipe($.imagemin({optimizationLevel: 4}))
+        .pipe(gulp.dest(config.build + 'images'));
+});
+
+
+/**
  * Default Task Run Sequence
+ * 
  */
 
 gulp.task('default', ['clean'], function(cb) {
@@ -225,6 +258,7 @@ gulp.task('browserSync',function(){
 
 /**
  *  Vet
+ *  
  */
 
 gulp.task('vet',function(){
@@ -273,6 +307,7 @@ gulp.task('ui-kit-generator', function() {
 
 /**
  * Create a visualizer report
+ * 
  */
 gulp.task('plato', function(done) {
     console.log('Analyzing source with Plato');
@@ -302,6 +337,7 @@ gulp.task('api', function() {
 
 /**
  * Start Plato inspector and visualizer
+ * 
  */
 
 function startPlatoVisualizer(done) {

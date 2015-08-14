@@ -1,6 +1,7 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 module Helpers {
 	'use strict';
+
 	export class Logger {
 
 		static $inject: string[]  = ['$log', 'toastr'];

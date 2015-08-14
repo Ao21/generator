@@ -1,6 +1,6 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 
-module Layout.Controller {
+module Layout.Controllers {
 	export class Shell {
 
 		static $inject: string[] = ['logger'];
@@ -21,4 +21,4 @@ module Layout.Controller {
 }
 
 angular.module('app.layout')
-	.controller('ShellController',  Layout.Controller.Shell);
+	.controller('ShellController',  Layout.Controllers.Shell);
