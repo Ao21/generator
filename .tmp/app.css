@@ -1,9 +1,6 @@
 /* inject:css */
 /* endinject */
 /* inject:scss */
-.menu {
-  color: black; }
-
 .button {
   color: black; }
   .button:hover {
@@ -11,5 +8,8 @@
 
 p {
   color: blue; }
+
+.menu {
+  color: black; }
 
 /* endinject */

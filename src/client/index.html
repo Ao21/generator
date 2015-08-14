@@ -6,15 +6,18 @@
 <!-- endinject -->
 </head>
 <body ng-app="app">
-	<div ng-controller="MainController"></div>
-	<div ng-controller="CoreController"></div>
+	<div ui-view></div>
 	<h1>hello</h1>
 	<!-- bower:js -->
 	<script src="../../scripts/angular/angular.js"></script>
+	<script src="../../scripts/angular-ui-router/release/angular-ui-router.js"></script>
 	<!-- endinject -->
 	<!-- inject:js -->
-	<script src="../../.tmp/app/core/config.js"></script>
-	<script src="../../.tmp/app/app.module.js"></script>
-	<script src="../../.tmp/app/app.config.js"></script>
+	<script src="/app/blocks/logger/logger.module.js"></script>
+	<script src="/app/blocks/logger/logger.js"></script>
+	<script src="/app/core/core.module.js"></script>
+	<script src="/app/core/config.js"></script>
+	<script src="/app/app.module.js"></script>
+	<script src="/app/app.config.js"></script>
 	<!-- endinject -->
 </body>

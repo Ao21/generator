@@ -1,9 +1,9 @@
 /// <reference path="../../../typings/tsd.d.ts" />
 (function(){
-	angular.module('app',['app.core'])
-		.controller('MainController', MainController);
+	'use strict';
+	
+	angular.module('app', [
+		'app.core'
+	]);
 
-	function MainController(){
-		console.log('hi2')
-	}
-})()
+})();

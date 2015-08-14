@@ -3,7 +3,8 @@ bower_components/
 scripts/
 
 .idea/
-
+report/
+typings/
 
 *.log
 

@@ -6,7 +6,7 @@ var gulp          = require('gulp'),
     fabricator    = require('gulp-fabricator'),
     angularFilesort = require('gulp-angular-filesort'),
     browserSync   = require('browser-sync').create(),
-    config        = require('./config/grunt.config'),
+    config        = require('./gulp.config')(),
     $             = require('gulp-load-plugins')();
 
 
@@ -105,16 +105,15 @@ gulp.task('inject:scss',function() {
  */
 
 gulp.task('inject:html', function() {
-  
   // Vendor Files
-  var vendorStream = gulp.src([config.path.scripts], {
+  var vendorStream = gulp.src([config.path.vendors], {
       read: false
   });
-  var appStream = gulp.src(['./.tmp/**/*.js']).pipe(angularFilesort());
+  var appStream = gulp.src(config.path.convTS).pipe(angularFilesort());
 
   // Angular Files
   var target = gulp.src(config.path.appMain);
-  return target.pipe($.inject(series(vendorStream, appStream), {relative: true}))
+  return target.pipe($.inject(series(vendorStream, appStream), {ignorePath: 'dist'} ))
       .pipe($.inject(gulp.src(bowerFiles(), {read: false}), {name: 'bower' ,relative: true}))
       .pipe(gulp.dest(config.path.client))
 })
@@ -125,6 +124,21 @@ gulp.task('inject:html', function() {
 
 gulp.task('inject:all',['inject:ts','inject:scss','inject:html']);
 
+
+/**
+ *  Generate TemplateCache
+ */
+
+gulp.task('templatecache', ['clean-code'], function() {
+    return gulp
+        .src(config.path.htmltemplates)
+        .pipe($.minifyHtml({empty: true}))
+        .pipe($.angularTemplatecache(
+            config.templateCache.file,
+            config.templateCache.options
+        ))
+        .pipe(gulp.dest(config.path.tmp));
+});
 
 
 /**
@@ -162,6 +176,7 @@ gulp.task('copy',function(){
   gulp.src(config.path.allHtml)
   .pipe(gulp.dest('dist'));
 })
+
 
 /**
  * Default Task Run Sequence

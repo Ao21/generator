@@ -10,6 +10,12 @@
     },
     "jquery/jquery.d.ts": {
       "commit": "338f9db37074d197764e95a487ddb865c5f2d73c"
+    },
+    "angularjs-toaster/angularjs-toaster.d.ts": {
+      "commit": "e95958ac847d9a343bdc8d7cbc796a5f6da29f71"
+    },
+    "toastr/toastr.d.ts": {
+      "commit": "e95958ac847d9a343bdc8d7cbc796a5f6da29f71"
     }
   }
 }
