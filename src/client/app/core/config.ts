@@ -1,10 +1,17 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 
 (function() {
-	var core = angular.module('app.core', [])
+	let core = angular.module('app.core', [])
 		.controller('CoreController', CoreController);
 
-	function CoreController($scope) {
-		console.log('hi');
+	function CoreController() {
+		let vm = this;
+		vm.title = 'Admin';
+
+		activate();
+
+		function activate() {
+			console.log('Activated Admin View');
+		}
 	}
 })();

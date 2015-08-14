@@ -1,3 +1,1 @@
-var able:string = 'hello5';
-
-
+"use strict";

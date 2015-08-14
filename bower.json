@@ -1,5 +1,5 @@
 {
-  "name": "aa-generator",
+  "name": "generator-theaa",
   "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
@@ -11,6 +11,10 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.3"
+    "angular": "~1.4.3",
+    "angular-mocks": "~1.4.3"
+  },
+  "devDependencies": {
+    "bardjs": "~0.1.5"
   }
 }

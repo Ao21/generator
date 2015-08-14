@@ -1,9 +1,10 @@
 /// <reference path="../../../typings/tsd.d.ts" />
-(function(){
-	angular.module('app',['app.core'])
-		.controller('MainController', MainController);
+(function(): void {
+	angular.module("app", ["app.core"])
+		.controller("MainController", MainController);
 
-	function MainController(){
-		console.log('hi2')
+
+	function MainController(): void {
+		this.title = 'Admin';
 	}
-})()
+})();
