@@ -1,22 +1,24 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 
-(function(): void {
-	'use strict';
-	angular
-		.module('app.layout')
-		.controller('ShellController', ShellController);
+module Layout.Controller {
+	export class Shell {
 
-	ShellController.$inject = ['logger'];
+		static $inject: string[] = ['logger'];
 
-	function ShellController(logger): void {
-		let vm = this;
-		vm.title = 'Shell';
+		title: string;
+		logger: Blocks.Logger;
 
-		activate();
+		constructor(logger: Blocks.Logger) {
+			this.logger = logger;
+			this.title = 'Shell';
+			this.activate();
+		}
 
-
-		function activate(): void {
-			logger.error('Application Activated!', null, vm.title);
+		activate(): void {
+			this.logger.info('Application Activated!', null, this.title);
 		}
 	}
-})();
+}
+
+angular.module('app.layout')
+	.controller('ShellController',  Layout.Controller.Shell);

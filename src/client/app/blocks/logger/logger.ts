@@ -1,46 +1,41 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-
-
-(function(): void {
+module Blocks {
 	'use strict';
+	export class Logger {
 
-	angular.module('blocks.logger').factory('logger', logger);
+		static $inject: string[]  = ['$log', 'toastr'];
 
-	logger.$inject = ['$log', 'toastr'];
-	function logger($log, toastr) {
-		let service = {
-			showToasts: true,
+		$log: ng.ILogService;
+		toastr: Toastr;
+		showToasts: Boolean;
+		log: ng.ILogCall;
 
-			error: error,
-			info: info,
-			success: success,
-			warning: warning,
+		constructor($log: ng.ILogService, toastr: Toastr) {
+			this.$log = $log;
+			this.toastr = toastr;
+			this.showToasts = true;
+			this.log = $log.log;
 
-			log: $log.log
 		};
 
-		return service;
-		//////////////////	
-		function error(message: string, data: any, title: string): void {
-			toastr.error(message, title);
-			$log.error('Error: ' + message, data);
-		}
-		function info(message: string, data: any, title: string): void {
-			toastr.info(message, title);
-			$log.info('Info: ' + message, data);
-		}
-		function success(message: string, data: any, title: string): void {
-			toastr.success(message, title);
-			$log.info('Success: ' + message, data);
-		}
-		function warning(message: string, data: any, title: string): void {
-			toastr.warning(message, title);
-			$log.warn('Warning: ' + message, data);
-		}
-
+		error(message: string, data: any, title: string): void {
+			this.toastr.error(message, title);
+			this.$log.error('Error: ' + message, data);
+		};
+		info(message: string, data: any, title: string): void {
+			this.toastr.info(message, title);
+			this.$log.info('Info: ' + message, data);
+		};
+		success(message: string, data: any, title: string): void {
+			this.toastr.success(message, title);
+			this.$log.info('Success: ' + message, data);
+		};
+		warning(message: string, data: any, title: string): void {
+			this.toastr.warning(message, title);
+			this.$log.warn('Warning: ' + message, data);
+		};
 	}
 
+}
 
-
-
-})();
+angular.module('blocks.logger').service('logger', Blocks.Logger);

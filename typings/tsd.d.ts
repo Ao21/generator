@@ -10,7 +10,6 @@
 /// <reference path="../src/client/app/core/core.module.ts" />
 /// <reference path="../src/client/app/layout/layout.module.ts" />
 /// <reference path="../src/client/app/layout/shell.controller.ts" />
-/// <reference path="../src/client/app/blocks/logger/logger.directive.ts" />
 /// <reference path="../src/client/app/blocks/logger/logger.module.ts" />
 /// <reference path="../src/client/app/blocks/logger/logger.ts" />
 /// endinject'
