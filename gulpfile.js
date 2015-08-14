@@ -2,12 +2,14 @@ var gulp          = require('gulp'),
     del           = require('del'),
     bowerFiles    = require('main-bower-files'),
     runSequence   = require('run-sequence'),
-    series        = require('stream-series')
+    series        = require('stream-series'),
+    glob          = require('glob'),
     fabricator    = require('gulp-fabricator'),
     angularFilesort = require('gulp-angular-filesort'),
     browserSync   = require('browser-sync').create(),
     config        = require('./gulp.config')(),
-    $             = require('gulp-load-plugins')();
+    stylish       = require('gulp-tslint-stylish'),
+    $             = require('gulp-load-plugins')({lazy: true});
 
 
 /**
@@ -23,6 +25,7 @@ gulp.task('styles', function() {
         .pipe($.changed(config.path.tmp, {
             extension: '.css'
         }))
+        .pipe($.plumber())
         .pipe($.sourcemaps.init())
         .pipe($.sass({
             precision: 10
@@ -70,6 +73,7 @@ gulp.task('html', function() {
 
 gulp.task('ngAnnotate', function() {
   var appStream = gulp.src([config.path.allJS])
+  .pipe($.plumber())
   .pipe($.ngAnnotate())
   .pipe(gulp.dest(config.path.client));
 })
@@ -172,6 +176,11 @@ gulp.task('typescript', function() {
 
 })
 
+
+/**
+ * Copy over remaining files
+ */
+
 gulp.task('copy',function(){
   gulp.src(config.path.allHtml)
   .pipe(gulp.dest('dist'));
@@ -214,6 +223,21 @@ gulp.task('browserSync',function(){
 
 
 /**
+ *  Vet
+ */
+
+gulp.task('vet',function(){
+  gulp.src(config.path.allTS)
+    .pipe($.tslint())
+    .pipe($.tslint.report(stylish, {
+        emitError: false,
+        sort: true,
+        bell: true
+      }));
+})
+
+
+/**
  *  Serve the Angular App
  *  Task: 'gulp serve'
  */
@@ -246,6 +270,17 @@ gulp.task('ui-kit-generator', function() {
 
 
 /**
+ * Create a visualizer report
+ */
+gulp.task('plato', function(done) {
+    console.log('Analyzing source with Plato');
+    console.log('Browse to /report/plato/index.html to see Plato results');
+
+    startPlatoVisualizer(done);
+});
+
+
+/**
  *  Start the Node Server
  *  Task: 'gulp api'
  */
@@ -258,3 +293,32 @@ gulp.task('api', function() {
         }
     })
 })
+
+
+
+
+
+/**
+ * Start Plato inspector and visualizer
+ */
+
+function startPlatoVisualizer(done) {
+    console.log('Running Plato');
+
+    var files = glob.sync(config.plato.js);
+    var excludeFiles = /.*\.spec\.js/;
+    var plato = require('plato');
+
+    var options = {
+        title: 'Plato Inspections Report',
+        exclude: excludeFiles
+    };
+    var outputDir = config.path.report + '/plato';
+
+    plato.inspect(files, outputDir, options, platoCompleted);
+
+    function platoCompleted(report) {
+        var overview = plato.getOverviewReport(report);
+        if (done) { done(); }
+    }
+}

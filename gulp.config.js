@@ -14,13 +14,12 @@ module.exports = function() {
     config.path.client = config.path.src + 'client/';
     config.path.app = config.path.client + 'app/';
 
+
     config.path.allHtml = config.path.client + '**/*.html';
     config.path.allJS = config.path.client + '**/*.js';
     config.path.allTS = config.path.client + '**/*.ts';
     config.path.allTSD = 'typings/**/*.ts';
-
     config.path.convTS = config.path.dist + '**/*.js';
-
 
     config.path.htmltemplates = config.path.app + '**/*.html',
 
@@ -30,6 +29,7 @@ module.exports = function() {
     config.path.styles = config.path.client + 'app.scss';
 
     config.path.vendors = './scripts/vendors/*.js';
+    config.path.app = config.path.client + 'app/';
     config.path.appMain = config.path.client + 'index.html';
 
 
