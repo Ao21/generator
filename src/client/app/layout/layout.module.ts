@@ -1,7 +1,7 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 
-(function(): void {
+module Layout {
 	'use strict';
+	angular.module('app.layout',  ['app.core']);
 
-	angular.module('app.layout', ['app.core']);
-})();
+}

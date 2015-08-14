@@ -1,5 +1,5 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-module Blocks {
+module Helpers {
 	'use strict';
 	export class Logger {
 
@@ -38,4 +38,4 @@ module Blocks {
 
 }
 
-angular.module('blocks.logger').service('logger', Blocks.Logger);
+angular.module('helpers.logger').service('logger', Helpers.Logger);

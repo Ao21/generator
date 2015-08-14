@@ -6,9 +6,9 @@ module Layout.Controller {
 		static $inject: string[] = ['logger'];
 
 		title: string;
-		logger: Blocks.Logger;
+		logger: Helpers.Logger;
 
-		constructor(logger: Blocks.Logger) {
+		constructor(logger: Helpers.Logger) {
 			this.logger = logger;
 			this.title = 'Shell';
 			this.activate();

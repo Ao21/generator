@@ -10,6 +10,8 @@
 /// <reference path="../src/client/app/core/core.module.ts" />
 /// <reference path="../src/client/app/layout/layout.module.ts" />
 /// <reference path="../src/client/app/layout/shell.controller.ts" />
-/// <reference path="../src/client/app/blocks/logger/logger.module.ts" />
-/// <reference path="../src/client/app/blocks/logger/logger.ts" />
+/// <reference path="../src/client/app/helpers/logger/logger.module.ts" />
+/// <reference path="../src/client/app/helpers/logger/logger.ts" />
+/// <reference path="../src/client/app/helpers/exception/exception.module.ts" />
+/// <reference path="../src/client/app/helpers/exception/exception.ts" />
 /// endinject'

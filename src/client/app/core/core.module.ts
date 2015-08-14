@@ -5,6 +5,6 @@
 
 	angular.module('app.core', [
 		'ui.router',
-		'blocks.logger'
+		'helpers.logger'
 	]);
 })();
