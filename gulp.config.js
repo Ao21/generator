@@ -21,6 +21,12 @@ module.exports = function() {
     config.path.allTSD = 'typings/**/*.ts';
     config.path.convTS = config.path.dist + '**/*.js';
 
+    config.jsOrdered = [
+        config.path.dist + '**/app.module.js',
+        config.path.dist + '**/*.module.js',
+        config.path.dist + '**/*.js'
+    ];
+
     config.path.htmltemplates = config.path.app + '**/*.html',
 
 

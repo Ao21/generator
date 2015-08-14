@@ -1,27 +1,31 @@
 <!doctype>
 <head>
 <!-- bower:css -->
+<link rel="stylesheet" href="../../scripts/toastr/toastr.css">
 <!-- endinject -->
 <!-- inject:css -->
 <!-- endinject -->
 </head>
 <body ng-app="app">
-	<div ui-view></div>
-	<h1>hello</h1>
+	<div>
+		<div ng-include="'app/layout/shell.html'"></div>
+	</div>
 	<!-- bower:js -->
 	<script src="../../scripts/angular/angular.js"></script>
-<<<<<<< HEAD
 	<script src="../../scripts/angular-ui-router/release/angular-ui-router.js"></script>
-=======
+	<script src="../../scripts/jquery/dist/jquery.js"></script>
 	<script src="../../scripts/angular-mocks/angular-mocks.js"></script>
->>>>>>> develop
+	<script src="../../scripts/toastr/toastr.js"></script>
 	<!-- endinject -->
 	<!-- inject:js -->
-	<script src="/app/blocks/logger/logger.module.js"></script>
-	<script src="/app/blocks/logger/logger.js"></script>
-	<script src="/app/core/core.module.js"></script>
-	<script src="/app/core/config.js"></script>
 	<script src="/app/app.module.js"></script>
+	<script src="/app/core/core.module.js"></script>
+	<script src="/app/layout/layout.module.js"></script>
+	<script src="/app/blocks/logger/logger.module.js"></script>
 	<script src="/app/app.config.js"></script>
+	<script src="/app/core/config.js"></script>
+	<script src="/app/core/constants.js"></script>
+	<script src="/app/layout/shell.controller.js"></script>
+	<script src="/app/blocks/logger/logger.js"></script>
 	<!-- endinject -->
 </body>

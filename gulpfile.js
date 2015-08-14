@@ -113,7 +113,7 @@ gulp.task('inject:html', function() {
   var vendorStream = gulp.src([config.path.vendors], {
       read: false
   });
-  var appStream = gulp.src(config.path.convTS).pipe(angularFilesort());
+  var appStream = gulp.src(config.jsOrdered);
 
   // Angular Files
   var target = gulp.src(config.path.appMain);
@@ -163,7 +163,8 @@ gulp.task('clean', function(cb) {
 
 var tsProject = $.typescript.createProject({
     declarationFiles: true,
-    noExternalResolve: true
+    noExternalResolve: true,
+    module: 'amd'
 });
 
 gulp.task('typescript', function() {
@@ -244,6 +245,7 @@ gulp.task('vet',function(){
 
 gulp.task('serve', function() {
     runSequence(
+      'clean',
       'typescript',
       'inject:all',
       'styles',

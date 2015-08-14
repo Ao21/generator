@@ -4,7 +4,6 @@ scripts/
 
 .idea/
 report/
-typings/
 
 *.log
 

@@ -3,8 +3,5 @@
 (function(): void {
 	'use strict';
 
-	angular.module('app.core', [
-		'ui.router',
-		'blocks.logger'
-	]);
+	angular.module('app.layout', ['app.core']);
 })();

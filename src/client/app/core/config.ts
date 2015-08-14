@@ -1,17 +1,17 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 
-(function() {
-	let core = angular.module('app.core', [])
-		.controller('CoreController', CoreController);
+(function(): void {
+	'use strict';
+	let core = angular.module('app.core');
 
-	function CoreController() {
-		let vm = this;
-		vm.title = 'Admin';
+	core.config(toastConfig);
 
-		activate();
+	toastConfig.$inject = ['toastr'];
 
-		function activate() {
-			console.log('Activated Admin View');
-		}
+	function toastConfig(toastr): void {
+		toastr.options.timeOut = 4000;
+		toastr.options.positionClass = 'toast-bottom-right';
 	}
+
+
 })();
