@@ -2,10 +2,9 @@
 
 module App {
 	'use strict';
-	angular
-	.module('app', [
-			'app.core',
-			'app.layout'
+	angular.module('app', [
+				'app.core',
+				'app.layout'
 		]);
 
 }

@@ -5,7 +5,6 @@ var gulp          = require('gulp'),
     series        = require('stream-series'),
     glob          = require('glob'),
     fabricator    = require('gulp-fabricator'),
-    angularFilesort = require('gulp-angular-filesort'),
     browserSync   = require('browser-sync').create(),
     config        = require('./gulp.config')(),
     stylish       = require('gulp-tslint-stylish'),
@@ -35,7 +34,7 @@ gulp.task('styles', function() {
         // Concatenate and minify styles
         .pipe($.if('*.css', $.minifyCss()))
         .pipe($.sourcemaps.write())
-        .pipe(gulp.dest(config.path.dist))
+        .pipe(gulp.dest(config.path.build))
         .pipe(browserSync.stream())
         .pipe($.size({
             title: 'styles'
@@ -51,7 +50,7 @@ gulp.task('styles', function() {
 gulp.task('html', function() {
   var assets = $.useref.assets({searchPath: '{.tmp,src/client}'});
 
-  return gulp.src(config.path.allHtml)
+  return gulp.src(config.path.bd.html)
     .pipe(assets)
     // Concatenate and minify styles
     // In case you are still using useref build blocks
@@ -74,11 +73,11 @@ gulp.task('html', function() {
  */
 
 gulp.task('ngAnnotate', function() {
-  var appStream = gulp.src([config.path.allJS])
+  var appStream = gulp.src([config.path.source.JS])
   .pipe($.plumber())
   .pipe($.ngAnnotate())
   .pipe(gulp.dest(config.path.client));
-})
+});
 
 
 /**
@@ -88,11 +87,11 @@ gulp.task('ngAnnotate', function() {
 
 gulp.task('inject:ts',function() {
   var tsTarget = gulp.src('./typings/tsd.d.ts');
-  var tsStream = gulp.src(config.path.allTS, {
+  var tsStream = gulp.src(config.path.source.TS, {
       read: false
   });
   return tsTarget.pipe($.inject(tsStream, {relative: true})).pipe(gulp.dest('typings'))
-})
+});
 
 /**
  *  Gulp: Inject SCSS
@@ -100,12 +99,12 @@ gulp.task('inject:ts',function() {
  */
 
 gulp.task('inject:scss',function() {
-  var scssStream = gulp.src([config.path.allSCSS,'!src/client/app.scss'], {
+  var scssStream = gulp.src([config.path.source.scss,'!src/client/app.scss'], {
       read: false
   });
   var cssTarget = gulp.src(config.path.styles);
   return cssTarget.pipe($.inject(scssStream, {relative: true})).pipe(gulp.dest(config.path.client))
-})
+});
 
 
 /**
@@ -122,10 +121,10 @@ gulp.task('inject:html', function() {
 
   // Angular Files
   var target = gulp.src(config.path.appMain);
-  return target.pipe($.inject(series(vendorStream, appStream), {ignorePath: 'dist'} ))
+  return target.pipe($.inject(series(vendorStream, appStream), {ignorePath: 'build'} ))
       .pipe($.inject(gulp.src(bowerFiles(), {read: false}), {name: 'bower' ,relative: true}))
       .pipe(gulp.dest(config.path.client))
-})
+});
 
 /**
  *  Gulp: Inject Everything
@@ -142,7 +141,7 @@ gulp.task('inject:all',['inject:ts','inject:scss','inject:html']);
 
 gulp.task('templatecache', ['clean-code'], function() {
     return gulp
-        .src(config.path.htmltemplates)
+        .src(config.path.source.htmltemplates)
         .pipe($.minifyHtml({empty: true}))
         .pipe($.angularTemplatecache(
             config.templateCache.file,
@@ -159,17 +158,17 @@ gulp.task('templatecache', ['clean-code'], function() {
  */
 
 gulp.task('clean', function(cb) {
-  del(['./.tmp', 'dist/*', 'ui-docs', '!dist/.git'], {
+  del(['./.tmp', 'build/*', 'ui-docs', '!build/.git'], {
       dot: true
   }, cb)
-})
+});
 
 /**
  * Remove all images from the build folder
  * 
  */
 gulp.task('clean-images', function(done) {
-    del(config.path.dist + 'images/**/*.*', done);
+    del(config.path.build + 'images/**/*.*', done);
 });
 
 
@@ -185,36 +184,43 @@ var tsProject = $.typescript.createProject({
 });
 
 gulp.task('typescript', function() {
-  var tsResult = gulp.src([config.path.allTS,config.path.allTSD])
+  gulp.src([config.path.source.TS,config.path.typings])
   .pipe($.sourcemaps.init())
   .pipe($.typescript(tsProject))
   .pipe($.sourcemaps.write())
-  .pipe(gulp.dest(config.path.dist))
+  .pipe(gulp.dest(config.path.build))
   .pipe(browserSync.stream());
-
-})
+});
 
 
 /**
- * Copy over remaining files
- * 
+ * Copy over remaining files 
+ * Build Version
  */
 
-gulp.task('copy', function(){
-  gulp.src(config.path.allHtml)
-  .pipe(gulp.dest('dist'));
-})
+gulp.task('copy:build', function(){
+  gulp.src(config.path.source.html)
+  .pipe(gulp.dest(config.path.build));
+});
 
+/**
+ *  Copy over remaining files 
+ *   Dist Version
+ */
+
+gulp.task('copy:dist', function(){
+  gulp.src(config.path.build + '**/*.html')
+  .pipe(gulp.dest(config.path.dist));
+});
 
 /**
  * Compress images
  * 
  */
-gulp.task('images', ['clean-images'], function() {
-    log('Compressing and copying images');
 
+gulp.task('images', ['clean-images'], function() {
     return gulp
-        .src(config.images)
+        .src(config.path.source.images)
         .pipe($.imagemin({optimizationLevel: 4}))
         .pipe(gulp.dest(config.build + 'images'));
 });
@@ -238,7 +244,7 @@ gulp.task('default', ['clean'], function(cb) {
 gulp.task('browserSync',function(){
   browserSync.init({ 
       server: { 
-          baseDir: [config.path.dist,'./.tmp','./scripts/'] 
+          baseDir: [config.path.build,'./.tmp','./scripts/'] 
       },
       rewriteRules: [
           {
@@ -250,10 +256,10 @@ gulp.task('browserSync',function(){
       ]
   });
 
-  gulp.watch(config.path.allHtml,['copy']).on('change', browserSync.reload);
-  gulp.watch(config.path.allTS, ['typescript']);
-  gulp.watch(config.path.allSCSS, ['styles']);
-})
+  gulp.watch(config.path.source.html,['copy:build']).on('change', browserSync.reload);
+  gulp.watch(config.path.source.TS, ['typescript']);
+  gulp.watch(config.path.source.scss, ['styles']);
+});
 
 
 /**
@@ -262,14 +268,14 @@ gulp.task('browserSync',function(){
  */
 
 gulp.task('vet',function(){
-  gulp.src(config.path.allTS)
+  gulp.src(config.path.source.TS)
     .pipe($.tslint())
     .pipe($.tslint.report(stylish, {
         emitError: false,
         sort: true,
         bell: true
       }));
-})
+});
 
 
 /**
@@ -279,15 +285,32 @@ gulp.task('vet',function(){
 
 gulp.task('serve', function() {
     runSequence(
-      'clean',
-      'typescript',
-      'inject:all',
-      'styles',
-      'copy',
-      'browserSync'
+        'clean',
+        'typescript',
+        'inject:all',
+        'styles',
+        'images',
+        'copy:build',
+        'browserSync'
     )
-    
-})
+});
+
+/**
+ *  Serve the Angular App
+ *  Task: 'gulp serve'
+ */
+
+gulp.task('build', function() {
+    runSequence(
+        'clean',
+        'typescript',
+        'inject:all',
+        'styles',
+        'images',
+        'copy:build',
+        'html'
+    )
+});
 
 
 /**
@@ -297,12 +320,12 @@ gulp.task('serve', function() {
  *  TODO: Decide what to do with these
  */
 gulp.task('ui-kit-generator', function() {
-    return gulp.src(config.path.allStyles)
+    return gulp.src(config.path.source.styles)
         .pipe(fabricator({
             output: 'index.html'
         }))
         .pipe(gulp.dest('ui-docs'));
-})
+});
 
 
 /**
@@ -329,10 +352,7 @@ gulp.task('api', function() {
             'NODE_ENV': 'development'
         }
     })
-})
-
-
-
+});
 
 
 /**
@@ -359,4 +379,4 @@ function startPlatoVisualizer(done) {
         var overview = plato.getOverviewReport(report);
         if (done) { done(); }
     }
-}
+};

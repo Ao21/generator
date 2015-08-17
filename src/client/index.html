@@ -1,15 +1,22 @@
 <!doctype>
 <head>
-<!-- bower:css -->
-<link rel="stylesheet" href="../../scripts/toastr/toastr.css">
-<!-- endinject -->
-<!-- inject:css -->
-<!-- endinject -->
+	<!-- build:css css/vendors.css -->
+	<!-- bower:css -->
+	<link rel="stylesheet" href="../../scripts/toastr/toastr.css">
+	<!-- endinject -->
+	<!-- inject:css -->
+	<!-- endinject -->
+	<!-- endbuild -->
+	<!-- build:css css/app.css -->
+	<link rel="stylesheet" href="app.css">
+	<!-- endbuild -->
+
 </head>
 <body ng-app="app">
 	<div>
 		<div ng-include="'app/layout/shell.html'"></div>
 	</div>
+	<!-- build:js js/script.js -->
 	<!-- bower:js -->
 	<script src="../../scripts/angular/angular.js"></script>
 	<script src="../../scripts/angular-ui-router/release/angular-ui-router.js"></script>
@@ -30,4 +37,5 @@
 	<script src="/app/helpers/exception/exception.js"></script>
 	<script src="/app/helpers/logger/logger.js"></script>
 	<!-- endinject -->
+	<!-- endbuild -->
 </body>

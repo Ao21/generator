@@ -4,35 +4,43 @@ module.exports = function() {
     var bowerFiles = wiredep({devDependencies: true,directory:'scripts'})['js'];
     config.path = {};
     config.styles = {};
+    config.path.source = {};
+    config.path.dest = {};
+    config.path.bd = {};
 
 
     config.path.src = './src/';
     config.path.tmp = './.tmp/';
     config.path.dist = './dist/';
+    config.path.build = './build/';
+    
     config.path.report = './report/';
 
     config.path.client = config.path.src + 'client/';
     config.path.app = config.path.client + 'app/';
 
 
-    config.path.allHtml = config.path.client + '**/*.html';
-    config.path.allJS = config.path.client + '**/*.js';
-    config.path.allTS = config.path.client + '**/*.ts';
-    config.path.allTSD = 'typings/**/*.ts';
-    config.path.convTS = config.path.dist + '**/*.js';
+    config.path.source.images = config.path.client + 'images/**/*.*';
+    config.path.source.html = config.path.client + '**/*.html';
+    config.path.source.JS = config.path.client + '**/*.js';
+    config.path.source.TS = config.path.client + '**/*.ts';
+    config.path.typings = 'typings/**/*.ts';
+
+    config.path.bd.ts = config.path.build + '**/*.js';
+    config.path.bd.html = config.path.build + '**/*.html';
 
     config.jsOrdered = [
-        config.path.dist + '**/app.module.js',
-        config.path.dist + '**/*.module.js',
-        config.path.dist + '**/*.js'
+        config.path.build + '**/app.module.js',
+        config.path.build + '**/*.module.js',
+        config.path.build + '**/*.js'
     ];
 
-    config.path.htmltemplates = config.path.app + '**/*.html',
+    config.path.source.htmltemplates = config.path.app + '**/*.html';
 
-
-    config.path.allSCSS = config.path.client + '**/*.scss';
-    config.path.allStyles = [config.path.src + '*.scss', config.path.src + 'styles/**/*.css'];
     config.path.styles = config.path.client + 'app.scss';
+    config.path.source.scss = config.path.client + '**/*.scss';
+    config.path.source.styles = [config.path.src + '*.scss', config.path.src + 'styles/**/*.css'];
+
 
     config.path.vendors = './scripts/vendors/*.js';
     config.path.app = config.path.client + 'app/';
@@ -47,7 +55,7 @@ module.exports = function() {
 
     config.karma = getKarmaOptions();
 
-    config.plato = {js: config.path.dist + '**/*.js'};
+    config.plato = {js: config.path.build + '**/*.js'};
 
     config.templateCache = {
         file: 'templates.js',
@@ -75,9 +83,9 @@ module.exports = function() {
             files: [].concat(
                 bowerFiles,
                 config.specHelpers,
-                config.path.dist + '**/*.module.js',
+                config.path.build + '**/*.module.js',
                 config.path.client + '**/*.js',
-                config.path.dist + '**/*.js',
+                config.path.build + '**/*.js',
                 config.serverIntegrationSpecs
             ),
             exclude: [],
